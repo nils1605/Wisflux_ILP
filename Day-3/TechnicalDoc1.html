@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Documentation </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Global</h2>
+        <a href="#Arm">IsArmstrong</a>
+        <a href="#even">isEven</a>
+        <a href="#odd">isOdd</a>
+        <a href="#palindrom">isPalindrom</a>
+        <a href="#perfect">isPerfect</a>
+    </div>
+    <div class="content">
+        <section id="Arm">
+            <h2>Introduction</h2>
+            <p>An Armstrong number (also known as a Narcissistic number, Pluperfect Digital Invariant (PPDI)) is a number where the sum of its own digits, each raised to the power of the number of digits, equals the number itself..</p>
+        <p>Example:
+            153 →13+53+33=153
+            13+53+33=153 ✅ (Armstrong number)
+            9474 →94+44+74+44=9474
+            94+44+74+44=9474 ✅
+            123 → 13+23+33=36
+            13+23+33=36 ❌ (Not an Armstrong number)</p>
+            <img src="../Day-2/arm.jpg"></section>
+        </section>
+        <section id="even">
+            <h2>Introduction</h2>
+            <img>
+                The isEven method is a simple function that checks whether a given number is even or not. It returns a Boolean value (true or false), depending on whether the number is divisible by 2.
+                
+                🔹 What is an Even Number?
+                A number is even if it is divisible by 2 (i.e., number % 2 == 0). Otherwise, it is odd.<br>
+                <br>
+                Examples:
+                4 → 4 % 2 == 0 ✅ (Even)<br>
+                <br>
+                7 → 7 % 2 == 1 ❌ (Odd)<br>
+                <br>
+                10 → 10 % 2 == 0 ✅ (Even)<br>
+            
+                </p>
+        </section>
+        <section id="odd">
+            <h2>Introduction</h2>
+            <p>The isOdd method is used to check whether a given number is odd or not. It returns a Boolean value (true or false), depending on whether the number is not divisible by 2.
+
+                🔹 What is an Odd Number?<br>
+                A number is odd if it is not divisible by 2 (i.e., number % 2 != 0).<br>
+                <br>
+                Examples:<br>
+                3 → 3 % 2 == 1 ✅ (Odd)<br>
+                <br>
+    
+                8 → 8 % 2 == 0 ❌ (Even)<br>
+                <br>
+                15 → 15 % 2 == 1 ✅ (Odd)<br>
+                <br>
+                <img src="../Day-2/even.png"></img>
+                </p>
+        </section>
+        <section id="palindrom">
+            <h2>Introduction</h2>
+            <p>The isPalindrome method is used to check whether a given string or number is a palindrome. It returns a Boolean value (true or false), indicating whether the input reads the same forward and backward.
+<br>
+                🔹 What is a Palindrome?
+                A palindrome is a word, phrase, number, or sequence that remains the same when reversed.
+                <br>
+                Examples:<br>
+                ✅ Palindromes:<br>
+                <br>
+                "madam" → Reversed: "madam" ✅<br>
+                <br>
+                "racecar" → Reversed: "racecar" ✅<br>
+                <br>
+                121 → Reversed: 121 ✅<br>
+                <br>
+                ❌ Not Palindromes:<br>
+                <br>
+                "hello" → Reversed: "olleh" ❌<br>
+                <br>
+                1234 → Reversed: 4321 ❌.<br>
+                <img src="../Day-2/palin.png"></img></p>
+        </section>
+        <section id="perfect">
+            <h2>Introduction</h2>
+            <p>The isPerfect method is used to check whether a given number is a perfect number. It returns a Boolean value (true or false), indicating whether the sum of its proper divisors (excluding itself) is equal to the number.
+<br>
+                🔹 What is a Perfect Number?<br>
+                A perfect number is a positive integer that is equal to the sum of its proper divisors (factors excluding the number itself).</p>
+                <img src="../Day-2/perfect.png"></img>
+        </section>
+    </div>
+</body>
+</html>
