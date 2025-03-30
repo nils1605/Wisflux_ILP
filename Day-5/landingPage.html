@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogging Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: violet;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        textarea, input {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .blog-post {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .actions button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blogging Application</h1>
+        <input type="text" id="title" placeholder="Enter Blog Title" required>
+        <textarea id="content" placeholder="Write your blog..." required></textarea>
+        <button onclick="addBlog()">Post Blog</button>
+        <h2>All Blogs</h2>
+        <div id="blog-list"></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", loadBlogs);
+        
+        function addBlog() {
+            let title = document.getElementById("title").value;
+            let content = document.getElementById("content").value;
+            
+            if (title === "" || content === "") {
+                alert("Please fill in both fields.");
+                return;
+            }
+            
+            let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+            blogs.push({ title, content });
+            localStorage.setItem("blogs", JSON.stringify(blogs));
+            document.getElementById("title").value = "";
+            document.getElementById("content").value = "";
+            loadBlogs();
+        }
+        
+        function loadBlogs() {
+            let blogList = document.getElementById("blog-list");
+            blogList.innerHTML = "";
+            let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+            blogs.forEach((blog, index) => {
+                let blogDiv = document.createElement("div");
+                blogDiv.classList.add("blog-post");
+                blogDiv.innerHTML = `<h3>${blog.title}</h3><p>${blog.content}</p>
+                    <div class="actions">
+                        <button onclick="editBlog(${index})">Edit</button>
+                        <button onclick="deleteBlog(${index})">Delete</button>
+                    </div>`;
+                blogList.appendChild(blogDiv);
+            });
+        }
+        
+        function editBlog(index) {
+            let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+            let newTitle = prompt("Edit title:", blogs[index].title);
+            let newContent = prompt("Edit content:", blogs[index].content);
+            
+            if (newTitle && newContent) {
+                blogs[index] = { title: newTitle, content: newContent };
+                localStorage.setItem("blogs", JSON.stringify(blogs));
+                loadBlogs();
+            }
+        }
+        
+        function deleteBlog(index) {
+            let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+            blogs.splice(index, 1);
+            localStorage.setItem("blogs", JSON.stringify(blogs));
+            loadBlogs();
+        }
+    </script>
+</body>
+</html>
