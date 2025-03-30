@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Grade Checker</title>
+</head>
+<body>
+    <h2>Grade Checker</h2>
+    <label for="marks">Enter total marks:</label>
+    <input type="number" id="marks"><br><br>
+    <label for="exam">Is this the Final Exam?</label>
+    <select id="exam">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+    </select><br><br>
+    <button onclick="checkGrade()">Check Grade</button>
+    <p id="result"></p>
+    <script>
+        function checkGrade() {
+            let marks = parseFloat(document.getElementById("marks").value);
+            let isFinal = document.getElementById("exam").value === "true";
+            
+            if (isNaN(marks) || marks < 0 || marks > 100) {
+                alert("Please enter valid marks between 0 and 100.");
+                return;
+            }
+            
+            let result = (isFinal && marks >= 90) || (!isFinal && marks >= 89 && marks <= 100);
+            
+            document.getElementById("result").innerHTML = `A+ Grade: ${result}`;
+        }
+    </script>
+</body>
+</html>
