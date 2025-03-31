@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Display Array Values</title>
+  <style>
+    #arrayContainer {
+      margin: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 300px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Array Values Display</h1>
+  <div id="arrayContainer"></div>
+
+  <script>
+    const arr = ["Apple", "Banana", "Mango", "Orange", "Pineapple"];
+    
+    const container = document.getElementById('arrayContainer');
+    
+    arr.forEach(function(item) {
+      const p = document.createElement('p'); 
+      p.textContent = item; 
+      container.appendChild(p);
+    });
+  </script>
+</body>
+</html>
