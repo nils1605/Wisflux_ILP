@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Activity Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    input, select {
+      flex: 1;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .event-card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GitHub Activity Viewer</h1>
+    <div class="input-group">
+      <input type="text" id="username" placeholder="Enter GitHub username" list="history-list">
+      <datalist id="history-list"></datalist>
+      <button onclick="fetchActivity()">Search</button>
+    </div>
+    <div class="input-group" id="filter-section" style="display:none;">
+      <label for="event-filter">Filter:</label>
+      <select id="event-filter" onchange="filterEvents()">
+        <option value="">All</option>
+      </select>
+    </div>
+    <p class="error" id="error-msg"></p>
+    <div id="events"></div>
+  </div>
+
+  <script>
+    const usernameInput = document.getElementById("username");
+    const historyList = document.getElementById("history-list");
+    const errorMsg = document.getElementById("error-msg");
+    const eventsContainer = document.getElementById("events");
+    const filterSection = document.getElementById("filter-section");
+    const filterSelect = document.getElementById("event-filter");
+
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    history.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      historyList.appendChild(option);
+    });
+
+    let allEvents = [];
+
+    function fetchActivity() {
+      const username = usernameInput.value.trim();
+      if (!username) return;
+
+      fetch(`https://api.github.com/users/${username}/events`)
+        .then(res => {
+          if (!res.ok) throw new Error("User not found or API error");
+          return res.json();
+        })
+        .then(data => {
+          errorMsg.textContent = "";
+          allEvents = data;
+          displayEvents(allEvents);
+          setupFilter();
+          filterSection.style.display = "flex";
+
+          if (!history.includes(username)) {
+            history.unshift(username);
+            localStorage.setItem("history", JSON.stringify(history));
+            const option = document.createElement("option");
+            option.value = username;
+            historyList.appendChild(option);
+          }
+        })
+        .catch(err => {
+          errorMsg.textContent = err.message;
+          eventsContainer.innerHTML = "";
+          filterSection.style.display = "none";
+        });
+    }
+
+    function displayEvents(events) {
+      eventsContainer.innerHTML = events.map(event => `
+        <div class="event-card">
+          <p><strong>Type:</strong> ${event.type}</p>
+          <p><strong>Repo:</strong> ${event.repo.name}</p>
+          <p><strong>Date:</strong> ${new Date(event.created_at).toLocaleString()}</p>
+        </div>
+      `).join("");
+    }
+
+    function setupFilter() {
+      const types = [...new Set(allEvents.map(e => e.type))];
+      filterSelect.innerHTML = '<option value="">All</option>' +
+        types.map(t => `<option value="${t}">${t}</option>`).join("");
+    }
+
+    function filterEvents() {
+      const type = filterSelect.value;
+      const filtered = type ? allEvents.filter(e => e.type === type) : allEvents;
+      displayEvents(filtered);
+    }
+  </script>
+</body>
+</html>
